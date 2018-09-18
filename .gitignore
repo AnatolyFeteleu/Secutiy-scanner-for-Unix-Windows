@@ -1,0 +1,6 @@
+#  Database
+scripts/database.db
+
+#  Cache
+__pycache__/
+scripts/__pycache__/

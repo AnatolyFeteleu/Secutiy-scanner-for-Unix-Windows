@@ -1,0 +1,73 @@
+# -*- coding: utf-8 -*-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>System compliance report</title>
+</head>
+<body>
+
+<article class="A4">
+    <div class="main-page-wrapper">
+        <h1 class="main-title">
+            System compliance report
+        </h1>
+        <div>
+            {% for item in system %}
+                <p>{{ item[0] }}: {{ item[1] }}</p>
+            {% endfor %}
+        </div>
+    </div>
+</article>
+
+<article class="A4">
+    <h1 class="main-title">
+        System summary
+    </h1>
+    <div>
+        <p>Hosts: {{ configuration["host"] }}</p>
+    </div>
+    <div>
+        <p>Transport: {{ transport_name }}</p>
+    </div>
+    <div>
+        <p>Port: {{ configuration["transports"][transport_name]["port"] }}</p>
+    </div>
+
+    <h1 class="main-title">
+        <div>
+            {% for item in group_status %}
+            <p>{{ item[0] }}: {{ item[1] }}</p>
+            {% endfor %}
+            <p>Total amount of audits: {{ num_inspects }}</p>
+        </div>
+    </h1>
+</article>
+
+<article class="A4">
+    <h1>
+        Checkings
+    </h1>
+    {% for check in checkings %}
+        <h3>{{ control_list[check[1]][1] }}</h3>
+        <h4>ID: {{ check[0] }}</h4>
+        <h4>Control ID: {{ check[1] }}</h4>
+        <p>Requirements: {{ control_list[check[1]][2] }}</p>
+        {% if check[2] == 'STATUS_NOT_COMPLIANT' %}
+        <p>Status: <span class="not-compliant">{{ check[2] }}</span></p>
+        {% elif check[2] == 'STATUS_COMPLIANT' %}
+        <p>Status: <span class="compliant">{{ check[2] }}</span></p>
+        {% elif check[2] == 'STATUS_EXCEPTION' %}
+        <p>Status: <span class="exception">{{ check[2] }}</span></p>
+        {% else %}
+        <p>System: Unknown error </p>
+        <p>Status: STATUS_ERROR</p>
+        {% endif %}
+        <div>
+            <h4>Description:</h4>
+            <p>{{ control_list[check[1]][3] }}</p>
+        </div>    {% endfor %}
+</article>
+
+</body>
+</html>
